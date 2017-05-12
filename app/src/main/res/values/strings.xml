@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">SQLiteBasicExample</string>
+    <string name="app_name">SQLite Basic Example</string>
+    <string name="countries_db">Countries Database Data</string>
 </resources>
