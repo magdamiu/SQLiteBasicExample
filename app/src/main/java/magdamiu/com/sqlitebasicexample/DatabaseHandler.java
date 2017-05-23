@@ -118,23 +118,25 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     // Getting All Countries
     public List<Country> getAllCountries() {
-        List<Country> CountryList = new ArrayList<Country>();
+        List<Country> countryList = new ArrayList<Country>();
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_Countries;
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
+
+        Country country = null;
         try {
             // looping through all rows and adding to list
             if (cursor.moveToFirst()) {
                 do {
-                    Country Country = new Country();
-                    Country.setCountryId(Integer.parseInt(cursor.getString(0)));
-                    Country.setName(cursor.getString(1));
-                    Country.setTown(cursor.getString(2));
+                    country = new Country();
+                    country.setCountryId(Integer.parseInt(cursor.getString(0)));
+                    country.setName(cursor.getString(1));
+                    country.setTown(cursor.getString(2));
 
                     // Adding Country to list
-                    CountryList.add(Country);
+                    countryList.add(country);
                 } while (cursor.moveToNext());
             }
         } catch (Exception e) {
@@ -145,21 +147,21 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             }
         }
         // return Country list
-        return CountryList;
+        return countryList;
     }
 
     // Updating single Country
-    public void updateCountry(Country Country) {
+    public void updateCountry(Country country) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.beginTransaction();
         try {
             ContentValues values = new ContentValues();
-            values.put(KEY_NAME, Country.getName());
-            values.put(KEY_TOWN, Country.getTown());
+            values.put(KEY_NAME, country.getName());
+            values.put(KEY_TOWN, country.getTown());
 
             // updating row
             db.update(TABLE_Countries, values, KEY_ID + " = ?",
-                    new String[]{String.valueOf(Country.getCountryId())});
+                    new String[]{String.valueOf(country.getCountryId())});
             db.setTransactionSuccessful();
         } catch (Exception e) {
             Log.d(TAG, "Error while trying to update country");
@@ -169,12 +171,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     // Deleting single Country
-    public void deleteCountry(Country Country) {
+    public void deleteCountry(Country country) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.beginTransaction();
         try {
             db.delete(TABLE_Countries, KEY_ID + " = ?",
-                    new String[]{String.valueOf(Country.getCountryId())});
+                    new String[]{String.valueOf(country.getCountryId())});
             db.setTransactionSuccessful();
         } catch (Exception e) {
             Log.d(TAG, "Error while trying to delete country");
