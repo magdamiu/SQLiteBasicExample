@@ -72,14 +72,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
      */
 
     // Adding new Country
-    public void addCountry(Country Country) {
+    public void addCountry(Country country) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         db.beginTransaction();
         try {
             ContentValues values = new ContentValues();
-            values.put(KEY_NAME, Country.getName()); // Country Name
-            values.put(KEY_TOWN, Country.getTown()); // Country Town
+            values.put(KEY_NAME, country.getName()); // Country Name
+            values.put(KEY_TOWN, country.getTown()); // Country Town
 
             // Inserting Row
             db.insert(TABLE_Countries, null, values);
